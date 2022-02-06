@@ -21,6 +21,9 @@ six==1.16.0
 sqlparse==0.4.2
 threadpoolctl==3.0.0
 uvicorn
+uvloop
+httptools
+
 aiofiles==0.6.0
 celery==4.4.7
 fastapi==0.64.0
