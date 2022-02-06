@@ -365,7 +365,7 @@ app = FastAPI()
 
 response = {}
 @app.get('/predict')
-def predictions(solute, solvent):
+async def predictions(solute, solvent):
     mol = Chem.MolFromSmiles(solute)
     mol = Chem.AddHs(mol)
     solute = Chem.MolToSmiles(mol)
@@ -392,11 +392,11 @@ data = [ele for ele in data if ele not in unwanted_smiles]
 
 response_two = {}
 @app.get('/predict_two')
-def predictions_two(solute):
-  for i in data:
-    delta_g, interaction_map = model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
-    response_two[i] = delta_g.item()
-  return {'result': response_two}
+async def predictions_two(solute):
+    for i in data:
+        delta_g, interaction_map = model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
+        response_two[i] = delta_g.item()
+    return {'result': response_two}
 
 
 async def predict_two(background_tasks: BackgroundTasks,solute):
