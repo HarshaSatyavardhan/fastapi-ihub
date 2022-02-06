@@ -403,7 +403,7 @@ async def predict_two(background_tasks: BackgroundTasks,solute):
     background_tasks.add_task(predictions_two,solute)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    app.run()
 
 
 
