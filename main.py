@@ -363,8 +363,9 @@ from time import sleep
 
 app = FastAPI()
 
+
+
 response = {}
-@app.get('/predict')
 async def predictions(solute, solvent):
     mol = Chem.MolFromSmiles(solute)
     mol = Chem.AddHs(mol)
@@ -378,10 +379,17 @@ async def predictions(solute, solvent):
     interaction_map_one = torch.trunc(interaction_map)
     response["interaction_map"] = (interaction_map_one.detach().numpy()).tolist()
     response["predictions"] = delta_g.item()
+
+
+@app.post('/predict_solubility')
+async def post():
     return {'result': response}
 
+@app.get('/predict')
 async def predict(background_tasks: BackgroundTasks,solute,solvent):
     background_tasks.add_task(predictions,solute,solvent)
+    return {'success'}
+
     
 from predict_json import json_data_func
 
@@ -391,19 +399,24 @@ unwanted_smiles = {'[Al]','[OH-].[OH-].[Mg++]', '[OH-].[OH-].[OH-].[Al+3]', '[O-
 data = [ele for ele in data if ele not in unwanted_smiles]
 
 response_two = {}
-@app.get('/predict_two')
 async def predictions_two(solute):
     for i in data:
-        delta_g, interaction_map = model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
+        delta_g, interaction_map =  model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
         response_two[i] = delta_g.item()
+    
+
+@app.post('/predict_solubility_json')
+async def post():
     return {'result': response_two}
 
-
+@app.get('/predict_two')
 async def predict_two(background_tasks: BackgroundTasks,solute):
-    await background_tasks.add_task(predictions_two,solute)
+    background_tasks.add_task(predictions_two,solute)
+    return {'success'}
+
 
 if __name__ == "__main__":
-  uvicorn.run("server.api:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", port=8000, reload=True)
 
 
 
