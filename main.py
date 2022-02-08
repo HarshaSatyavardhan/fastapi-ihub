@@ -396,7 +396,7 @@ async def predictions(solute, solvent):
 async def post():
     return {'result': response}
 
-@app.get('/predict')
+@app.post('/predict')
 async def predict(background_tasks: BackgroundTasks,solute,solvent):
     background_tasks.add_task(predictions,solute,solvent)
     return {'success'}
@@ -420,7 +420,7 @@ async def predictions_two(solute):
 async def post():
     return {'result': response_two}
 
-@app.get('/predict_two')
+@app.post('/predict_two')
 async def predict_two(background_tasks: BackgroundTasks,solute):
     background_tasks.add_task(predictions_two,solute)
     return {'success'}
