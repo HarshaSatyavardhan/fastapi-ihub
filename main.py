@@ -360,8 +360,19 @@ from typing import Optional, Text
 from fastapi import FastAPI, BackgroundTasks
 import uvicorn
 from time import sleep
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 
