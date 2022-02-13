@@ -392,12 +392,12 @@ async def predictions(solute, solvent):
     response["predictions"] = delta_g.item()
 
 
-@app.post('/predict_solubility')
+@app.get('/predict_solubility')
 async def post():
     return {'result': response}
 print(response)
 
-@app.post('/predict')
+@app.get('/predict')
 async def predict(background_tasks: BackgroundTasks,solute,solvent):
     background_tasks.add_task(predictions,solute,solvent)
     return {'success'}
@@ -417,7 +417,7 @@ async def predictions_two(solute):
         response_two[i] = delta_g.item()
     
 
-@app.post('/predict_solubility_json')
+@app.get('/predict_solubility_json')
 async def post():
     return {'result': response_two}
 print(response_two)
