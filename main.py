@@ -395,6 +395,7 @@ async def predictions(solute, solvent):
 @app.post('/predict_solubility')
 async def post():
     return {'result': response}
+print(response)
 
 @app.post('/predict')
 async def predict(background_tasks: BackgroundTasks,solute,solvent):
@@ -419,6 +420,7 @@ async def predictions_two(solute):
 @app.post('/predict_solubility_json')
 async def post():
     return {'result': response_two}
+print(response_two)
 
 @app.post('/predict_two')
 async def predict_two(background_tasks: BackgroundTasks,solute):
