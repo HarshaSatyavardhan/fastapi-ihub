@@ -422,7 +422,7 @@ async def post():
     return {'result': response_two}
 print(response_two)
 
-@app.post('/predict_two')
+@app.get('/predict_two')
 async def predict_two(background_tasks: BackgroundTasks,solute):
     background_tasks.add_task(predictions_two,solute)
     return {'success'}
