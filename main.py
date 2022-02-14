@@ -405,10 +405,50 @@ async def predict(background_tasks: BackgroundTasks,solute,solvent):
     
 from predict_json import json_data_func
 
-data = json_data_func('drug_set.json')
+import json
+# testing
 
-unwanted_smiles = {'[Al]','[OH-].[OH-].[Mg++]', '[OH-].[OH-].[OH-].[Al+3]', '[O--].[Mg++]','[Li+]', '[C]','[K+].[I-]','[Cl-].[Cl-].[223Ra++]', '[K+]', '[Cl-].[Cl-].[Ca++]', '[Fe]', '[Cl-].[K+]', '[NH4+].[Cl-]', '[Na+].[Cl-]','[131I-]','[Mg++]','[Cu]', '[Se]', '[O--].[O--].[O--].[Al+3].[Al+3]','[Cr]'}
-data = [ele for ele in data if ele not in unwanted_smiles]
+data_first = json.load(open('drug_set.json'))
+
+unwanted_smiles = {
+    'DB01370':'[Al]',
+    'DB09104':'[OH-].[OH-].[Mg++]',
+    'DB06723':'[OH-].[OH-].[OH-].[Al+3]',
+    'DB01377':'[O--].[Mg++]',
+    'DB01356':'[Li+]',
+    'DB09278':'[C]',
+    'DB06715':'[K+].[I-]',
+    'DB08913':'[Cl-].[Cl-].[223Ra++]',
+    'DB01345':'[K+]',
+    'DB01164':'[Cl-].[Cl-].[Ca++]',
+    'DB01592':'[Fe]',
+    'DB00761':'[Cl-].[K+]',
+    'DB06767':'[NH4+].[Cl-]',
+    'DB09153':'[Na+].[Cl-]',
+    'DB09293':'[131I-]',
+    'DB01378':'[Mg++]',
+    'DB09130':'[Cu]',
+    'DB11135':'[Se]',
+    'DB11342':'[O--].[O--].[O--].[Al+3].[Al+3]',
+    'DB11136':'[Cr]'}
+
+keys = []
+for key in unwanted_smiles:
+  keys.append(key)
+
+data_two = dict([(key, val) for key, val in 
+           data_first.items() if key not in keys])
+
+data =[]
+for key in data_two:
+  data.append(data_two[key]['smiles'])  
+
+key_attach = []
+for key in data_two:
+  key_attach.append(key)
+    
+# testing
+
 
 response_two = {}
 async def predictions_two(solute):
