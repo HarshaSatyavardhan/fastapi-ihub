@@ -457,11 +457,10 @@ async def predictions_two(solute):
         response_two[i] = delta_g.item()
     
 
-response_three = {val:{k:v} for val,(k,v) in zip(key_attach, response_two.items())}
 
 @app.get('/predict_solubility_json')
 async def post():
-    return {'result': response_three}
+    return {'result': {val:{k:v} for val,(k,v) in zip(key_attach, response_two.items())}}
 
 
 @app.get('/predict_two')
