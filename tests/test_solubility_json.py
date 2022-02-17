@@ -1,7 +1,9 @@
 from httpx import AsyncClient
 import pytest
-from main import app
-from sample_json_data import data_two
+from app.main import app
+from tests.sample_json_data import data_two
+from model.ml_model import predictions_two, response_two
+
 data = ["success"]
 
 solute = 'CC(C)(C)Br'
@@ -16,6 +18,10 @@ async def test_root():
     assert response.json() == data
     assert response_two.json() == data_two
 
+async def test_predict():
+    res = await predictions_two(solute)
+    response_final = response_two
+    assert response_final == data_two
 
 
     

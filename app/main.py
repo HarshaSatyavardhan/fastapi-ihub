@@ -9,6 +9,7 @@ from model.ml_model import response,response_two,key_attach, predictions, predic
 DEVICE = "cuda"
 
 app = FastAPI()
+
 origins = ["*"]
 
 app.add_middleware(
@@ -41,4 +42,4 @@ async def predict_two(background_tasks: BackgroundTasks,solute):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=8000, reload=True)
+    uvicorn.run("app.main:app", port=8000, reload=True)
