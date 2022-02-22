@@ -26,7 +26,7 @@ async def predict(background_tasks: BackgroundTasks,solute,solvent):
     
 @app.get('/predict_solubility_json')
 async def post():
-    return {'result': attach_drug_name}
+    return {'result': attach_drug_name()}
 
 
 @app.get('/predict_two')
