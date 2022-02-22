@@ -1,11 +1,8 @@
 from httpx import AsyncClient
 import pytest
 from app.main import app
-from model.ml_model import predictions,response
-data = ["success"]
-data_two_here = {"result":{"interaction_map":[[15.0,5.0,14.0,15.0,15.0],[19.0,7.0,20.0,19.0,19.0],[13.0,6.0,18.0,13.0,13.0],[15.0,5.0,14.0,15.0,15.0],[15.0,5.0,14.0,15.0,15.0]],"predictions":-3.405024290084839}}
-solute = 'CC(C)(C)Br'
-solvent = 'CC(C)(C)Br'
+from model.model import predictions,response
+from inputs.test_input import data, data_two_here, solute, solvent
 
 @pytest.mark.anyio
 async def test_root():

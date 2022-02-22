@@ -2,20 +2,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset
-
 from dgl import DGLGraph
 from dgl.nn.pytorch import Set2Set, NNConv, GATConv
-from rdkit import rdBase
-
-from rdkit import Chem
-from rdkit import RDLogger
+from rdkit import Chem, RDLogger,rdBase
 from rdkit.Chem import rdMolDescriptors as rdDesc
-
 import numpy as np
 import warnings
-
-from model.predict_json import json_data_func
-import json
+from inputs.unwanted_smiles import unwanted_smiles
+from model.load_model import data_first, state
 
 lg = RDLogger.logger()
 lg.setLevel(RDLogger.CRITICAL)
@@ -297,7 +291,6 @@ class Dataclass(Dataset):
         delta_g = self.dataset.loc[idx]['DeltaGsolv']
         return [solute_graph, solvent_graph]
 
-state = torch.load('model/best_model.tar',map_location=torch.device('cpu'))
 
 state["solute_gather.conv.edge_func.0.weight"] = state["solute_gather.conv.edge_nn.0.weight"]
 state["solute_gather.conv.edge_func.0.bias"] = state["solute_gather.conv.edge_nn.0.bias"]
@@ -321,6 +314,9 @@ model= CIGINModel().to(device)
 model.load_state_dict(state,strict=True)
 model.eval()
 
+def attach_drug_name():
+    return {val:{k:v} for val,(k,v) in zip(key_attach, response_two.items())}
+
 response = {}
 async def predictions(solute, solvent):
     mol = Chem.MolFromSmiles(solute)
@@ -343,32 +339,6 @@ async def predictions_two(solute):
         delta_g, interaction_map =  model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
         response_two[i] = delta_g.item()
 
-# testing
-
-data_first = json.load(open('model/drug_set.json'))
-
-unwanted_smiles = {
-    'DB01370':'[Al]',
-    'DB09104':'[OH-].[OH-].[Mg++]',
-    'DB06723':'[OH-].[OH-].[OH-].[Al+3]',
-    'DB01377':'[O--].[Mg++]',
-    'DB01356':'[Li+]',
-    'DB09278':'[C]',
-    'DB06715':'[K+].[I-]',
-    'DB08913':'[Cl-].[Cl-].[223Ra++]',
-    'DB01345':'[K+]',
-    'DB01164':'[Cl-].[Cl-].[Ca++]',
-    'DB01592':'[Fe]',
-    'DB00761':'[Cl-].[K+]',
-    'DB06767':'[NH4+].[Cl-]',
-    'DB09153':'[Na+].[Cl-]',
-    'DB09293':'[131I-]',
-    'DB01378':'[Mg++]',
-    'DB09130':'[Cu]',
-    'DB11135':'[Se]',
-    'DB11342':'[O--].[O--].[O--].[Al+3].[Al+3]',
-    'DB11136':'[Cr]'}
-
 keys = []
 for key in unwanted_smiles:
   keys.append(key)
@@ -384,5 +354,4 @@ key_attach = []
 for key in data_two:
   key_attach.append(key)
     
-# testing
 

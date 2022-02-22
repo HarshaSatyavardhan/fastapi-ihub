@@ -1,12 +1,10 @@
 from httpx import AsyncClient
 import pytest
 from app.main import app
-from tests.sample_json_data import data_two
-from model.ml_model import predictions_two, response_two
+from inputs.sample_json_data import data_two
+from model.model import predictions_two, response_two
+from inputs.test_input import data, solute
 
-data = ["success"]
-
-solute = 'CC(C)(C)Br'
 
 @pytest.mark.anyio
 async def test_root():
