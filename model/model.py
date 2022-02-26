@@ -319,25 +319,34 @@ def attach_drug_name():
 
 response = {}
 async def predictions(solute, solvent):
-    mol = Chem.MolFromSmiles(solute)
-    mol = Chem.AddHs(mol)
-    solute = Chem.MolToSmiles(mol)
-    solute_graph = get_graph_from_smile(solute)
-    mol = Chem.MolFromSmiles(solvent)
-    mol = Chem.AddHs(mol)
-    solvent = Chem.MolToSmiles(mol)
-    solvent_graph = get_graph_from_smile(solvent)
-    delta_g, interaction_map =  model([solute_graph.to(device), solvent_graph.to(device)])
-    interaction_map_one = torch.trunc(interaction_map)
-    response["interaction_map"] = (interaction_map_one.detach().numpy()).tolist()
-    response["predictions"] = delta_g.item()
+    m = Chem.MolFromSmiles(solute,sanitize=False)
+    n = Chem.MolFromSmiles(solvent,sanitize=False)
+    if (m == None or n == None):
+      print('invalid SMILES')
+    else:
+      mol = Chem.MolFromSmiles(solute)
+      mol = Chem.AddHs(mol)
+      solute = Chem.MolToSmiles(mol)
+      solute_graph = get_graph_from_smile(solute)
+      mol = Chem.MolFromSmiles(solvent)
+      mol = Chem.AddHs(mol)
+      solvent = Chem.MolToSmiles(mol)
+      solvent_graph = get_graph_from_smile(solvent)
+      delta_g, interaction_map =  model([solute_graph.to(device), solvent_graph.to(device)])
+      interaction_map_one = torch.trunc(interaction_map)
+      response["interaction_map"] = (interaction_map_one.detach().numpy()).tolist()
+      response["predictions"] = delta_g.item()
 
 
 response_two = {}
 async def predictions_two(solute):
-    for i in data:
-        delta_g, interaction_map =  model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
-        response_two[i] = delta_g.item()
+    m = Chem.MolFromSmiles(solute,sanitize=False)
+    if (m == None):
+      print('invalid SMILES')
+    else:
+        for i in data:
+            delta_g, interaction_map =  model([get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(solute)))).to(device), get_graph_from_smile(Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(i)))).to(device)])
+            response_two[i] = delta_g.item()
 
 keys = []
 for key in unwanted_smiles:
