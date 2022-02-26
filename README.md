@@ -8,33 +8,34 @@ Solubility of drug molecules is related to pharmacokinetic properties such as ab
 
 ## Documentation
 
-### Files
+### File Directory
 
 ```
-|- app
-| |- **init**.py
-| |- main.py
-|- inputs
-||- best_model.tar
-||- drug_set.json
-||- sample_json_data.py
-||- test_input.py
-||- unwanted_smiles.py
-|- model
-||- **init**.py
-||- load_model.py
-||- model.py
-||- predict_json.py
-|- tests
-||- **init**.py
-||- test_solubility_json.py
-||- test_solubility.py
-|- .dockerignore
-|- .gitignore
-|- Dockerfile
-|- entrypoint.sh
-|- gunicorn.config.py
-|- Procfile
-|- requirements.txt
-|- README.md
+│-- app
+    └─── **init**.py
+    └─── main.py
+│-- inputs
+    └─── best_model.tar
+    └─── drug_set.json
+    └─── sample_json_data.py
+    └─── test_input.py
+    └─── unwanted_smiles.py
+│-- model
+    └─── **init**.py
+    └─── load_model.py
+    └─── model.py
+    └─── predict_json.py
+│-- tests
+    └─── **init**.py
+    └─── test_solubility_json.py
+    └─── test_solubility.py
+│-- .dockerignore
+|-- .gitignore
+|-- Dockerfile
+|-- entrypoint.sh
+|-- gunicorn.config.py
+|-- Procfile
+|-- requirements.txt
+|-- README.md
+
 ```
