@@ -12,23 +12,23 @@ Solubility of drug molecules is related to pharmacokinetic properties such as ab
 
 ```
 ├── app
-    └─── __init__.py
-    └─── main.py
+│   └─── __init__.py
+│   └─── main.py
 ├── inputs
-    └─── best_model.tar
-    └─── drug_set.json
-    └─── sample_json_data.py
-    └─── test_input.py
-    └─── unwanted_smiles.py
+│   └─── best_model.tar
+│   └─── drug_set.json
+│   └─── sample_json_data.py
+│   └─── test_input.py
+│   └─── unwanted_smiles.py
 ├── model
-    └─── __init__.py
-    └─── load_model.py
-    └─── model.py
-    └─── predict_json.py
+│   └─── __init__.py
+│   └─── load_model.py
+│   └─── model.py
+│   └─── predict_json.py
 ├── tests
-    └─── __init__.py
-    └─── test_solubility_json.py
-    └─── test_solubility.py
+│   └─── __init__.py
+│   └─── test_solubility_json.py
+│   └─── test_solubility.py
 ├── .dockerignore
 ├── .gitignore
 ├── Dockerfile
