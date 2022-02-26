@@ -319,9 +319,11 @@ def attach_drug_name():
 
 response = {}
 async def predictions(solute, solvent):
+    response.clear()
     m = Chem.MolFromSmiles(solute,sanitize=False)
     n = Chem.MolFromSmiles(solvent,sanitize=False)
     if (m == None or n == None):
+      response['predictions']= 'invalid SMILES'
       print('invalid SMILES')
     else:
       mol = Chem.MolFromSmiles(solute)
@@ -340,8 +342,10 @@ async def predictions(solute, solvent):
 
 response_two = {}
 async def predictions_two(solute):
+    response_two.clear()
     m = Chem.MolFromSmiles(solute,sanitize=False)
     if (m == None):
+      response_two['predictions']= 'invalid SMILES'
       print('invalid SMILES')
     else:
         for i in data:
