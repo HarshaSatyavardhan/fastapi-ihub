@@ -40,4 +40,10 @@ Solubility of drug molecules is related to pharmacokinetic properties such as ab
 
 ```
 
-- `App` folder conatines `main.py` where we handle api calling and posts responses
+- `App` folder contains `main.py` where we handle api calling and posts responses
+- `inputs` folder contains all the inputs required for the model to work
+- `model` folder contains `model.py` file where all the machine learning code is present. `load_model.py` contains the code to load the model. If you want to use a custom model load the model in `inputs` folder and provide the path in `load_model.py`. `predict_json.py` contains the code to load the load all the similes in `inputs/drug_set.json` file and converts them to do predictions.
+- `tests` folder contains the `test_solubility_json.py` and `test_solubility.py` to do unit tests
+- `Dockerfile` used to deploy this in a container
+- `entrypoint.sh` conatins the starting command to start the fastapi in docker after deploying and run background workers
+- `requirements.txt` contains all the required modules for this repository
