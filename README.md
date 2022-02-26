@@ -39,3 +39,5 @@ Solubility of drug molecules is related to pharmacokinetic properties such as ab
 ├── README.md
 
 ```
+
+`App` folder conatines `main.py` where we handle api calling and posts responses
