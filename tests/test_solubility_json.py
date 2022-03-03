@@ -9,7 +9,7 @@ from inputs.test_input import data, solute
 @pytest.mark.anyio
 async def test_root():
     async with AsyncClient(app=app, base_url="http://test") as ac:
-        response = await ac.get('/predict_two?solute=CC(C)(C)Br')
+        response = await ac.get(f"/predict_two?solute={solute}")
         response_two = await ac.get('/predict_solubility_json')
     assert response.status_code == 200
     assert response_two.status_code == 200
