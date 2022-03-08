@@ -4,6 +4,7 @@ from app.main import app
 from model.model import predictions,response
 from inputs.test_input import data, data_two_here, solute, solvent
 
+
 @pytest.mark.anyio
 async def test_root():
     async with AsyncClient(app=app, base_url="http://test") as ac:
