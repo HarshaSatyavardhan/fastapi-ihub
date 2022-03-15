@@ -366,5 +366,3 @@ for key in data_two:
 key_attach = []
 for key in data_two:
   key_attach.append(key)
-    
-
