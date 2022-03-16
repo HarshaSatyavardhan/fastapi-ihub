@@ -4,4 +4,4 @@ RUN pip3 install --no-cache-dir --upgrade -r ./requirements.txt
 COPY . ./
 
 RUN chmod +x entrypoint.sh
-CMD ["./entrypoint.sh" ]
+CMD ["./entrypoint.sh"]
